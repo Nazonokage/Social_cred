@@ -1,0 +1,124 @@
+Yes! You can **simplify the setup** by running the following commands inside your project directory:  
+
+```sh
+npm create vite@latest . --template react  # Initializes Vite in the current directory
+npm i --verbose  # Installs Vite dependencies
+npm install express mysql2 argon2 dotenv cors helmet express-rate-limit csurf express-session jsonwebtoken bcryptjs concurrently  # Installs backend dependencies --verbose
+```
+
+---
+
+## **🔹 Adjust Project Structure (All Inside One Folder)**
+Since you’re keeping everything inside **one folder**, the structure will look like this:
+
+```
+/social-credit-system  # Root directory
+  ├── /node_modules    # Shared dependencies (React + Express)
+  ├── /public          # React public assets
+  ├── /src             # React frontend
+  │   ├── /pages       # React pages (Login, Register, Dashboard)
+  │   ├── /services    # API calls (Axios)
+  │   ├── App.jsx      # Main React component
+  │   ├── main.jsx     # React entry point
+  ├── /server          # Express backend
+  │   ├── server.js    # Main Express server
+  │   ├── routes.js    # API endpoints
+  │   ├── db.js        # MySQL connection
+  │   ├── auth.js      # Authentication (Argon2)
+  │   ├── security.js  # Security middleware (helmet, rate-limit)
+  │   ├── .env         # Environment variables
+  ├── .gitignore
+  ├── package.json     # Shared dependencies
+  ├── vite.config.js   # Vite config for frontend proxy
+```
+
+---
+
+## **🔹 Set Up Backend (Express)**
+### **📌 `/server/server.js`**
+```js
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const session = require('express-session');
+const csurf = require('csurf');
+const authRoutes = require('./routes');
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+app.use(helmet());
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));
+app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }));
+app.use(csurf());
+
+app.use('/social_credit/api/auth', authRoutes);  // API URL set to "/social_credit"
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}/social_credit`));
+```
+
+---
+
+## **🔹 Set Up Frontend Proxy to `/social_credit`**
+### **📌 `vite.config.js`**
+Modify Vite’s proxy to match Express:
+```js
+export default {
+  server: {
+    proxy: {
+      '/social_credit/api': 'http://localhost:5000',
+    },
+  },
+};
+```
+Now, React will automatically forward requests to Express.
+
+---
+
+## **🔹 Start Everything with One Command**
+Modify `package.json`:
+```json
+"scripts": {
+  "dev": "concurrently \"npm run server\" \"npm run client\"",
+  "server": "node server/server.js",
+  "client": "vite",
+  "build": "vite build"
+}
+```
+Run:
+```sh
+npm run dev
+```
+✅ **React (`Vite`) will start at `http://localhost:5173/social_credit`**  
+✅ **Express API will be available at `http://localhost:5000/social_credit/api`**  
+
+---
+
+### **🎯 Summary**
+✔ **Single `node_modules` for frontend & backend**  
+✔ **Express & React share the same base URL (`/social_credit`)**  
+✔ **Proxy setup prevents CORS issues**  
+✔ **All security features included (Helmet, CSRF, Rate Limit, Argon2, JWT, etc.)**  
+
+This keeps everything **clean & secure!** 🚀 Let me know if you need any tweaks!
+
+
+
+
+{
+  "date": "YYYY-MM-DD",
+  "value": 1000.00,
+  "description": "Loan for car repair",
+  "status": "unpaid",
+  "due_date": "YYYY-MM-DD",
+  "payment_history": [
+    {
+      "amount": 500.00,
+      "date": "YYYY-MM-DD",
+      "method": "bank transfer"
+    }
+  ]
+}

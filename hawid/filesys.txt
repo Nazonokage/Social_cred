@@ -1,0 +1,45 @@
+/social-credit-system
+├── /node_modules
+├── /public
+│   ├── images
+│   ├── bgm
+│   └── favicon.ico
+├── /src
+│   ├── /assets
+│   ├── /components
+│   │   ├── AddDebt.jsx
+│   │   ├── DebtList.jsx
+│   │   ├── PrivateRoute.jsx.jsx
+│   │   └── Navbar.jsx
+│   ├── /translations
+│   │   ├── translations.jsx
+│   ├── /context
+│   │   ├── UserContext.jsx
+│   │   └── LanguageProvider.jsx
+│   ├── /pages
+│   │   ├── Home.jsx
+│   │   ├── Porfile.jsx
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   └── Dashboard.jsx
+│   ├── /services
+│   │   └── api.js       # Axios instance with CSRF token handling
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── /server
+│   ├── /middleware
+│   │   └── authMiddleware.js
+│   ├── /models
+│   │   ├── db.js     # Raw MySQL2 connection
+│   │   ├── index.js  # ORM setup
+│   │   ├── User.js
+│   │   └── Debt.js
+│   ├── server.js
+│   ├── routes.js
+│   ├── auth.js          # Auth utilities
+│   └── security.js
+├── .gitignore
+├── package.json
+├── index.html
+└── vite.config.js
