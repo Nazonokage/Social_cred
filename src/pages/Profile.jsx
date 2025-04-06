@@ -45,32 +45,38 @@ export default function Profile() {
       setError(t('profile.passwordMismatch'));
       return;
     }
-
+  
     try {
       const updateData = {
         name: formData.name,
         address: formData.address
       };
-
+  
       if (formData.password) {
         updateData.password = formData.password;
       }
-
+  
       const response = await api.put('/auth/profile', updateData);
-      setUser(response.data.user);
+      
+      // Update user context with new data
+      setUser(prev => ({
+        ...prev,
+        ...response.data.user
+      }));
+      
       setError('');
       setSuccess(true);
       
       if (audioRef.current) {
         audioRef.current.play();
       }
-
+  
       setFormData(prev => ({
         ...prev,
         password: '',
         confirmPassword: ''
       }));
-
+  
       setTimeout(() => setSuccess(false), 5000);
     } catch (err) {
       if (err.response?.status === 401) {

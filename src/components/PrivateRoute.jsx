@@ -4,7 +4,7 @@ import { useUser } from '../context/UserContext';
 import api from '../services/api';
 
 export default function PrivateRoute() {
-  const { user, setUser, debts, fetchDebts } = useUser();
+  const { user, setUser, fetchDebts } = useUser();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {

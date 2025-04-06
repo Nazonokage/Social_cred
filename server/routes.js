@@ -167,7 +167,17 @@ router.put('/auth/profile', logRequest, authMiddleware, async (req, res) => {
     );
     
     if (updated === 0) return res.status(404).json({ error: 'User not found' });
-    res.status(200).json({ message: 'Profile updated successfully' });
+    
+    // Get updated user data
+    const updatedUser = await User.findOne({
+      where: { UID: req.userId },
+      attributes: ['UID', 'name', 'email', 'credit_score', 'address']
+    });
+
+    res.status(200).json({ 
+      message: 'Profile updated successfully',
+      user: updatedUser 
+    });
   } catch (err) {
     console.error('Profile update error:', err);
     res.status(500).json({ error: 'Failed to update profile' });

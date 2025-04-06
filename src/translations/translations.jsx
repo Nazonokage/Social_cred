@@ -35,6 +35,9 @@ export const translations = {
         error: "Login failed"
       },
       dashboard: {
+        // In both 'en' and 'cn' sections under dashboard:
+        recordDeleted: 'Record Deleted Successfully!', 
+        confirmDelete: 'Confirm Deletion', 
         title: "Social Credit Records",
         addRecords: "Add Records",
         totalRecords: "Total Records",
@@ -104,6 +107,8 @@ export const translations = {
         error: "登录失败"
       },
       dashboard: {
+        recordDeleted: '记录删除成功!', 
+        confirmDelete: '确认删除',
         title: "社会信用记录",
         addRecords: "添加记录",
         totalRecords: "总记录数",
