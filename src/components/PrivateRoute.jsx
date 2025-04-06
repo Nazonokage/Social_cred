@@ -19,7 +19,7 @@ export default function PrivateRoute() {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const userResponse = await api.get('/auth/me');
         setUser(userResponse.data);
-        console.log(setUser);
+        // console.log(setUser);
         await fetchDebts(); // Wait for debts to load
         
       } catch (err) {

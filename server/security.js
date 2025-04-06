@@ -5,7 +5,7 @@ import cors from "cors";
 export default function applySecurity(app) {
   app.use(helmet());
   app.use(cors({ 
-    origin: "http://localhost:5047", 
+    origin: "http://localhost:5047", // Remove trailing slash
     credentials: true 
   }));
   app.use(rateLimit({ 

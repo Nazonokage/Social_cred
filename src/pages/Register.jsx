@@ -74,7 +74,7 @@ export default function Register() {
   };
 
   const handleLoadingComplete = () => {
-    navigate('social_cred/login');
+    navigate('/login');
   };
 
   const resetSecurityWarning = () => {
